@@ -35,15 +35,15 @@ input_data = np.array([[glucose, bp, insulin, bmi, dpf, age]])
 input_scaled = scaler.transform(input_data)
 
 if st.button("Predict"):
+    prediction = model.predict(input_scaled)[0]
     probability = model.predict_proba(input_scaled)[0][1]
 
-    threshold = 0.3
+    st.write(f"Risk Probability: {probability:.2f}")
 
-    
-    st.write("Risk Probability:", probability)
-
-    if probability >= threshold:
-        st.error(f"🟥 Diabetes: YES\n\nRisk Probability: {probability:.2f}")
+    if probability < 0.25:
+        st.success("🟢 Low Diabetes Risk")
+    elif probability < 0.5:
+        st.warning("🟠 Moderate Diabetes Risk")
     else:
-        st.success(f"🟩 Diabetes: NO\n\nRisk Probability: {probability:.2f}")
+        st.error("🔴 High Diabetes Risk")
 
