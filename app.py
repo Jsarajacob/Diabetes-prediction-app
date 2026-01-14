@@ -23,13 +23,13 @@ st.write("Enter clinical details to predict diabetes status:")
 # Input fields
 glucose = st.number_input("Glucose", min_value=0, max_value=300, value=120)
 bp = st.number_input("Blood Pressure", min_value=0, max_value=200, value=70)
-bmi = st.number_input("BMI", min_value=0.0, max_value=70.0, value=25.0)
 insulin = st.number_input("Insulin", min_value=0, max_value=900, value=112)
+bmi = st.number_input("BMI", min_value=0.0, max_value=70.0, value=25.0)
 dpf = st.number_input("Diabetes Pedigree Function", min_value=0.0, max_value=3.0, value=0.5)
 age = st.number_input("Age", min_value=1, max_value=120, value=30)
 
 # Create input array
-input_data = np.array([[glucose, bp, bmi, insulin, dpf, age]])
+input_data = np.array([[glucose, bp, insulin, bmi, dpf, age]])
 
 # Scale input
 input_scaled = scaler.transform(input_data)
