@@ -7,7 +7,7 @@ import joblib
 
 
 model = joblib.load("diabetes_model.pkl")
-scaler = joblib.load("scaler.pkl")
+
 
 st.set_page_config(page_title="Diabetes Risk Prediction", layout="centered")
 
