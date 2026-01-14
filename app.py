@@ -58,13 +58,12 @@ input_data = np.array([[glucose, bp, bmi, insulin, dpf, age]])
 # Scale input
 input_scaled = scaler.transform(input_data)
 
-# Prediction
 if st.button("Predict"):
-    prediction = model.predict(input_scaled)[0]
-    prob = model.predict_proba(input_scaled)[0][1]
+    probability = model.predict_proba(input_scaled)[0][1]
 
-    if prediction == 1:
-        st.error(f"Diabetes: YES (Risk = {prob:.2f})")
+    threshold = 0.4   # medical-friendly threshold
+
+    if probability >= threshold:
+        st.error(f"🟥 Diabetes: YES\n\nRisk Probability: {probability:.2f}")
     else:
-        st.success(f"Diabetes: NO (Risk = {prob:.2f})")
-        
+        st.success(f"🟩 Diabetes: NO\n\nRisk Probability: {probability:.2f}")       
