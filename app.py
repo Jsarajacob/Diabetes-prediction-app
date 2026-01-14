@@ -31,8 +31,7 @@ age = st.number_input("Age", min_value=1, max_value=120, value=33, key="age")
 input_data = np.array([[glucose, bp, insulin, bmi, dpf, age]])
 input_final = input_data
 
-st.write("Scaled input:")
-st.dataframe(input_scaled)
+
 
 
 if st.button("Predict"):
