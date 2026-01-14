@@ -37,12 +37,12 @@ input_scaled = scaler.transform(input_data)
 if st.button("Predict"):
     probability = model.predict_proba(input_scaled)[0][1]
 
-    threshold = 0.4   # medical-friendly threshold
+    threshold = 0.4
+
+    st.write("Risk Probability:", probability)
 
     if probability >= threshold:
         st.error(f"🟥 Diabetes: YES\n\nRisk Probability: {probability:.2f}")
     else:
         st.success(f"🟩 Diabetes: NO\n\nRisk Probability: {probability:.2f}")
 
-
-st.write("Probability:", probability)
