@@ -39,6 +39,7 @@ if st.button("Predict"):
 
     threshold = 0.4
 
+    st.write("Scaled input:", input_scaled)
     st.write("Risk Probability:", probability)
 
     if probability >= threshold:
