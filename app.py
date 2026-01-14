@@ -21,8 +21,8 @@ st.title("Diabetes Risk Prediction")
 st.write("Enter clinical details to predict diabetes status:")
 
 # Input fields
-glucose = st.number_input("Glucose", min_value=0, max_value=300, value=120)
-bp = st.number_input("Blood Pressure", min_value=0, max_value=200, value=70)
+glucose = st.number_input("Glucose", min_value=0, max_value=500, value=120)
+bp = st.number_input("Blood Pressure", min_value=0, max_value=500, value=70)
 insulin = st.number_input("Insulin", min_value=0, max_value=900, value=112)
 bmi = st.number_input("BMI", min_value=0.0, max_value=70.0, value=25.0)
 dpf = st.number_input("Diabetes Pedigree Function", min_value=0.0, max_value=3.0, value=0.5)
@@ -37,9 +37,9 @@ input_scaled = scaler.transform(input_data)
 if st.button("Predict"):
     probability = model.predict_proba(input_scaled)[0][1]
 
-    threshold = 0.4
+    threshold = 0.3
 
-    st.write("Scaled input:", input_scaled)
+    
     st.write("Risk Probability:", probability)
 
     if probability >= threshold:
