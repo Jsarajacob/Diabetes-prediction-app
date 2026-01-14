@@ -39,6 +39,9 @@ if st.button("Predict"):
 
     threshold = 0.4   # medical-friendly threshold
 
+st.write("Probability:", probability)
+
+
     if probability >= threshold:
         st.error(f"🟥 Diabetes: YES\n\nRisk Probability: {probability:.2f}")
     else:
