@@ -31,6 +31,30 @@ age = st.number_input("Age", min_value=1, max_value=120, value=30)
 # Create input array
 input_data = np.array([[glucose, bp, insulin, bmi, dpf, age]])
 
+import streamlit as st
+import numpy as np
+import joblib
+
+# Load model and scaler
+model = joblib.load("diabetes_model.pkl")
+scaler = joblib.load("scaler.pkl")
+
+st.set_page_config(page_title="Diabetes Prediction App", layout="centered")
+
+st.title("Diabetes Risk Prediction")
+st.write("Enter clinical details to predict diabetes status:")
+
+# Input fields
+glucose = st.number_input("Glucose", min_value=0, max_value=300, value=120)
+bp = st.number_input("Blood Pressure", min_value=0, max_value=200, value=70)
+bmi = st.number_input("BMI", min_value=0.0, max_value=70.0, value=25.0)
+insulin = st.number_input("Insulin", min_value=0, max_value=900, value=112)
+dpf = st.number_input("Diabetes Pedigree Function", min_value=0.0, max_value=3.0, value=0.5)
+age = st.number_input("Age", min_value=1, max_value=120, value=30)
+
+# Create input array
+input_data = np.array([[glucose, bp, bmi, insulin, dpf, age]])
+
 # Scale input
 input_scaled = scaler.transform(input_data)
 
@@ -38,12 +62,7 @@ if st.button("Predict"):
     prediction = model.predict(input_scaled)[0]
     probability = model.predict_proba(input_scaled)[0][1]
 
-    st.write(f"Risk Probability: {probability:.2f}")
-
-    if probability < 0.25:
-        st.success("🟢 Low Diabetes Risk")
-    elif probability < 0.5:
-        st.warning("🟠 Moderate Diabetes Risk")
+    if prediction == 1:
+        st.error(f"🟥 Diabetes: YES\n\nRisk Probability: {probability:.2f}")
     else:
-        st.error("🔴 High Diabetes Risk")
-
+        st.success(f"🟩 Diabetes: NO\n\nRisk Probability: {probability:.2f}")
