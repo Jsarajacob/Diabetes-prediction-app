@@ -11,19 +11,19 @@ st.title("Diabetes Risk Prediction")
 st.write("Enter clinical details to predict diabetes risk:")
 
 # ---------- Inputs ----------
-glucose = st.text_input("Glucose", placeholder="mg/dL (e.g., 120)")
-bp = st.text_input("Blood Pressure", placeholder="Diastolic BP (e.g., 70)")
-insulin = st.text_input("Insulin", placeholder="µU/mL (e.g., 80)")
-bmi = st.text_input("BMI", placeholder="kg/m² (e.g., 25.5)")
-dpf = st.text_input("Diabetes Pedigree Function", placeholder="e.g., 0.52")
-age = st.text_input("Age", placeholder="years (e.g., 33)")
+glucose = st.text_input("Glucose", placeholder="mg/dL (50-500)")
+bp = st.text_input("Blood Pressure", placeholder="Diastolic BP (40-200)")
+insulin = st.text_input("Insulin", placeholder="µU/mL (15-900)")
+bmi = st.text_input("BMI", placeholder="kg/m² (15-70)")
+dpf = st.text_input("Diabetes Pedigree Function", placeholder="risk score (0.0-3.0)")
+age = st.text_input("Age", placeholder="years (5-95)")
 
 # -----------------------------
 # PREDICTION
 # -----------------------------
 if st.button("Predict"):
     try:
-        # Convert to numeric
+        # Convert inputs to float
         input_data = np.array([[ 
             float(glucose),
             float(bp),
@@ -33,19 +33,25 @@ if st.button("Predict"):
             float(age)
         ]])
 
-        # Scale input
-        input_scaled = scaler.transform(input_data)
-
-        # Predict
-        prediction = model.predict(input_scaled)[0]
-        probability = model.predict_proba(input_scaled)[0][1]
+        # Predict probability
+        probability = model.predict_proba(input_data)[0][1]
 
         st.subheader("Result")
+        st.write(f"### Risk Probability: {probability:.3f}")
 
-        if prediction == 1:
-            st.error(f"🟥 **Diabetes: YES**\n\nRisk Probability: **{probability:.2f}**")
+        # Decision threshold
+        threshold = 0.5
+
+        if probability >= threshold:
+            st.error(
+                f"🟥 **Diabetes: YES**\n\n"
+                f"Estimated Risk: **{probability*100:.1f}%**"
+            )
         else:
-            st.success(f"🟩 **Diabetes: NO**\n\nRisk Probability: **{probability:.2f}**")
+            st.success(
+                f"🟩 **Diabetes: NO**\n\n"
+                f"Estimated Risk: **{probability*100:.1f}%**"
+            )
 
     except ValueError:
         st.warning("⚠️ Please enter valid numeric values in all fields")
